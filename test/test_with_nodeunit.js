@@ -1,4 +1,4 @@
-var utils = require("bolt-internal-utils");
+var utils = require("../utils");
 
 module.exports = {
   testStringStartsWith: function(test) {
