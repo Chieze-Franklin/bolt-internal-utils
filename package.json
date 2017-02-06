@@ -2,10 +2,14 @@
   "name": "bolt-internal-utils",
   "description": "internal module used to get functions to perform various utility tasks.",
   "version": "1.0.1",
+  "main": "utils.js",
   "author": {
     "name": "Chieze Franklin",
     "email": "chieze.franklin@gmail.com",
     "url": "https://chieze-franklin.github.io"
+  },
+  "scripts": {
+    "test": "nodeunit test/test_with_nodeunit.js"
   },
   "license": "MIT",
   "repository": {
@@ -15,7 +19,7 @@
   "files": [
     "LICENSE",
     "README.md",
-    "index.js"
+    "utils.js"
   ],
   "bugs": {
     "url": "https://github.com/Chieze-Franklin/bolt-internal-utils/issues"
