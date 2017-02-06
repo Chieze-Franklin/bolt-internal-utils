@@ -1,7 +1,7 @@
 {
   "name": "bolt-internal-utils",
   "description": "internal module used to get functions to perform various utility tasks.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "utils.js",
   "author": {
     "name": "Chieze Franklin",

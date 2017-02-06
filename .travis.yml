@@ -3,3 +3,4 @@ node_js:
   - "6.9.4"
 before_script:
   - npm install -g nodeunit
+  - npm install bolt-internal-errors
