@@ -2,6 +2,8 @@
 
 Internal Bolt module used to get functions to perform various utility tasks.
 
+[![Build Status](https://travis-ci.org/Chieze-Franklin/bolt-internal-utils.svg?branch=master)](https://travis-ci.org/Chieze-Franklin/bolt-internal-utils)
+
 ## Installation
 
 ```sh
