@@ -110,7 +110,7 @@ module.exports = {
 			else {
 				if (!__isNullOrUndefined(body))
 					response.code = 0;
-				else if (!__isNullOrUndefined(error))
+				else //if (!__isNullOrUndefined(error))
 					response.code = 1000;
 			}
 
