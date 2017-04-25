@@ -6,8 +6,12 @@ try {
 }
 var fs = require('fs')
 var path = require("path");
+var superagent = require('superagent');
 
+var config = require("bolt-internal-config");
 var errors = require("bolt-internal-errors");
+
+const X_BOLT_APP_TOKEN = 'X-Bolt-App-Token';
 
 var __isNullOrUndefined = function(obj){
 	return (typeof obj === 'undefined' || obj === null);
@@ -70,6 +74,16 @@ __sanitizeRoles = function(models) {
 	var _models = [];
 	models.forEach(function(model){
 		_models.push(__sanitizeRole(model));
+	});
+	return _models;
+},
+__sanitizeRouter = function(model) {
+	return __sanitizeModel(model, ['__v']);
+},
+__sanitizeRouters = function(models) {
+	var _models = [];
+	models.forEach(function(model){
+		_models.push(__sanitizeRouter(model));
 	});
 	return _models;
 },
@@ -154,11 +168,22 @@ module.exports = {
 		sanitizeModels: __sanitizeModels,
 		sanitizeRole: __sanitizeRole,
 		sanitizeRoles: __sanitizeRoles,
+		sanitizeRouter: __sanitizeRouter,
+		sanitizeRouters: __sanitizeRouters,
 		sanitizeUser: __sanitizeUser,
 		sanitizeUsers: __sanitizeUsers,
 		sanitizeUserRole: __sanitizeUserRole,
 		sanitizeUserRoles: __sanitizeUserRoles,
 		isNullOrUndefined: __isNullOrUndefined
+	},
+	Events: {
+		fire: function(eventName, eventBody, appToken, callback) {
+			superagent
+				.post(config.getProtocol() + '://' + config.getHost() + ':' + config.getPort() + '/api/events/' + eventName)
+				.set(X_BOLT_APP_TOKEN, appToken)
+				.send(eventBody)
+				.end(callback);
+		}
 	},
 	Security: {
 		checksumSync: function(_path, callback) {
