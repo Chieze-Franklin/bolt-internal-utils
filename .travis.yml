@@ -8,3 +8,4 @@ notifications:
 before_script:
   - npm install nodeunit jscoverage coveralls
   - npm install bolt-internal-errors
+  - npm install superagent
