@@ -8,7 +8,6 @@ var fs = require('fs')
 var path = require("path");
 var superagent = require('superagent');
 
-var config = require("bolt-internal-config");
 var errors = require("bolt-internal-errors");
 
 const X_BOLT_APP_TOKEN = 'X-Bolt-App-Token';
@@ -19,7 +18,7 @@ var __isNullOrUndefined = function(obj){
 
 var __extractModel = function(model, propsToGet) {
 	var _model = model;
-	if(!__isNullOrUndefined(model) && !__isNullOrUndefined(model.toJSON)) _model = model.toJSON();
+	if(!__isNullOrUndefined(model) && typeof model.toJSON === "function") _model = model.toJSON();
 	var _object = {};
 	for (var prop in _model) {
 		if (_model.hasOwnProperty(prop)) {
@@ -32,8 +31,15 @@ var __extractModel = function(model, propsToGet) {
 }
 
 var __sanitizeModel = function(model, propsToRemove) {
-	var _model = model;
-	if(!__isNullOrUndefined(model) && !__isNullOrUndefined(model.toJSON)) _model = model.toJSON();
+	var _model = {};
+	if(!__isNullOrUndefined(model) && typeof model.toJSON === "function") _model = model.toJSON();
+	else {
+		for (var prop in model) {
+			if (model.hasOwnProperty(prop)) {
+				_model[prop] = model[prop];
+			}
+		}
+	}
 	propsToRemove.forEach(function(prop){
 		delete _model[prop];
 	});
@@ -179,7 +185,7 @@ module.exports = {
 	Events: {
 		fire: function(eventName, eventBody, appToken, callback) {
 			superagent
-				.post(config.getProtocol() + '://' + config.getHost() + ':' + config.getPort() + '/api/events/' + eventName)
+				.post(process.env.BOLT_ADDRESS + '/api/events/' + eventName)
 				.set(X_BOLT_APP_TOKEN, appToken)
 				.send(eventBody)
 				.end(callback);
