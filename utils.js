@@ -21,7 +21,10 @@ var __extractModel = function(model, propsToGet) {
 	if(!__isNullOrUndefined(model) && typeof model.toJSON === "function") _model = model.toJSON();
 	var _object = {};
 	for (var prop in _model) {
-		if (_model.hasOwnProperty(prop)) {
+		var doProp = true;
+		if (typeof _model.hasOwnProperty === "function") 
+			doProp = _model.hasOwnProperty(prop);
+		if (doProp) {
 			if(propsToGet.indexOf(prop) != -1) {
 				_object[prop] = _model[prop];
 			}
