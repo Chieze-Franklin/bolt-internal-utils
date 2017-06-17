@@ -192,6 +192,19 @@ module.exports = {
 				.set(X_BOLT_APP_TOKEN, appToken)
 				.send(eventBody)
 				.end(callback);
+		},
+		sub: function(hookName, hookBody, appToken, callback) {
+			superagent
+				.post(process.env.BOLT_ADDRESS + '/api/events/sub/' + module.exports.String.trimStart(hookName, "/"))
+				.set(X_BOLT_APP_TOKEN, appToken)
+				.send(hookBody)
+				.end(callback);
+		},
+		unsub: function(hookName, appToken, callback) {
+			superagent
+				.delete(process.env.BOLT_ADDRESS + '/api/events/sub/' + module.exports.String.trimStart(hookName, "/"))
+				.set(X_BOLT_APP_TOKEN, appToken)
+				.end(callback);
 		}
 	},
 	Security: {
