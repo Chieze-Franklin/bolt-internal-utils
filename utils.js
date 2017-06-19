@@ -76,6 +76,16 @@ __sanitizeAppRoles = function(models) {
 	});
 	return _models;
 },
+__sanitizeAppUser = function(model) {
+	return __sanitizeModel(model, ['__v']);
+},
+__sanitizeAppUsers = function(models) {
+	var _models = [];
+	models.forEach(function(model){
+		_models.push(__sanitizeAppUser(model));
+	});
+	return _models;
+},
 __sanitizeRole = function(model) {
 	return __sanitizeModel(model, ['__v']);
 },
@@ -173,6 +183,8 @@ module.exports = {
 		sanitizeApps: __sanitizeApps,
 		sanitizeAppRole: __sanitizeAppRole,
 		sanitizeAppRoles: __sanitizeAppRoles,
+		sanitizeAppUser: __sanitizeAppUser,
+		sanitizeAppUsers: __sanitizeAppUsers,
 		sanitizeModel: __sanitizeModel,
 		sanitizeModels: __sanitizeModels,
 		sanitizeRole: __sanitizeRole,
