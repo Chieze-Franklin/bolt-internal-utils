@@ -86,6 +86,16 @@ __sanitizeAppUsers = function(models) {
 	});
 	return _models;
 },
+__sanitizePermission = function(model) {
+	return __sanitizeModel(model, ['__v']);
+},
+__sanitizePermissions = function(models) {
+	var _models = [];
+	models.forEach(function(model){
+		_models.push(__sanitizePermission(model));
+	});
+	return _models;
+},
 __sanitizeRole = function(model) {
 	return __sanitizeModel(model, ['__v']);
 },
@@ -187,6 +197,8 @@ module.exports = {
 		sanitizeAppUsers: __sanitizeAppUsers,
 		sanitizeModel: __sanitizeModel,
 		sanitizeModels: __sanitizeModels,
+		sanitizePermission: __sanitizePermission,
+		sanitizePermissions: __sanitizePermissions,
 		sanitizeRole: __sanitizeRole,
 		sanitizeRoles: __sanitizeRoles,
 		sanitizeRouter: __sanitizeRouter,
@@ -195,7 +207,18 @@ module.exports = {
 		sanitizeUsers: __sanitizeUsers,
 		sanitizeUserRole: __sanitizeUserRole,
 		sanitizeUserRoles: __sanitizeUserRoles,
-		isNullOrUndefined: __isNullOrUndefined
+		isNullOrUndefined: __isNullOrUndefined,
+		isEmptyObject: function(obj) {
+			if (typeof obj.hasOwnProperty === "function") {
+				for (var prop in obj) {
+					if(obj.hasOwnProperty(prop)) {
+						return false;
+					}
+				}
+			}
+
+			return JSON.stringify(obj) === JSON.stringify({});
+		}
 	},
 	Events: {
 		fire: function(eventName, eventBody, appToken, callback) {
